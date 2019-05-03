@@ -21,4 +21,4 @@ Uses python3 and [python-requests](https://2.python-requests.org/) library, whic
 
 [WTFPL](LICENSE)
 
-P.S. If this code is useful for you - don't forget to put a star on it's [github repo](https://github.com/selivan/kibana-backup-simple).
+**P.S.** If this code is useful for you - don't forget to put a star on it's [github repo](https://github.com/selivan/kibana-backup-simple).
