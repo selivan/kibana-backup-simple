@@ -14,3 +14,7 @@ Simple backup for Kibana Saved Objects: config, index patterns, dashboards, save
 
 * https://www.elastic.co/guide/en/kibana/current/saved-objects-api-get.html
 * https://www.elastic.co/guide/en/kibana/current/saved-objects-api-create.html
+
+### License
+
+[WTFPL](LICENSE)
