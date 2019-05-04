@@ -14,6 +14,7 @@ def backup(kibana_url, user, password):
     """Return string with json containing Kibana saved objects"""
 
     saved_object_types = ('visualization', 'dashboard', 'search', 'index-pattern', 'config', 'timelion-sheet')
+    #saved_object_types = ('index-pattern',)
     saved_objects = {}
     for obj_type in saved_object_types:
         r = requests.get(kibana_url + '/api/saved_objects/_find?type={}'.format(obj_type),
