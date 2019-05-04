@@ -29,8 +29,9 @@ def restore(kibana_url, user, password, text):
     for key, val in saved_objects.items():
         for obj in val['saved_objects']:
             obj_data = {'attributes': obj['attributes']}
-            print('/api/saved_objects/{}/{}?overwrite=true'.format(key, obj['id']))
-            r = requests.post(kibana_url + '/api/saved_objects/{}/{}?overwrite=true'.format(key, obj['id']),
+            url = kibana_url + '/api/saved_objects/{}/{}?overwrite=true'.format(key, obj['id'])
+            print('POST ' + url)
+            r = requests.post(url,
                               auth=(user, password),
                               headers={'Content-Type': 'application/json', 'kbn-xsrf': 'reporting'},
                               data=json.dumps(obj_data))
