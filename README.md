@@ -4,10 +4,9 @@ Uses python3 and [python-requests](https://2.python-requests.org/) library, whic
 
 ### Usage
 
-`kibana-backup.py [--kibana-url KIBANA_URL] [--user USER] [--password PASSWORD] backup > kibana-backup.json`
+`kibana-backup.py [--kibana-url KIBANA_URL] [--user USER] [--password PASSWORD] backup > backup.json`
 
-`cat kibana-backup.json | \`\
-`kibana-backup.py [--kibana-url KIBANA_URL] [--user USER] [--password PASSWORD] restore`
+`cat backup.json | kibana-backup.py [--kibana-url KIBANA_URL] [--user USER] [--password PASSWORD] restore`
 
 * `backup` write backup file in json format to stdout
 * `restore` restore backup from stdout
