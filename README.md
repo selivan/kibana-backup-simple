@@ -9,7 +9,7 @@ Uses python3 and [python-requests](https://2.python-requests.org/) library, whic
 `cat backup.json | kibana-backup.py [--kibana-url KIBANA_URL] [--user USER] [--password PASSWORD] restore`
 
 * `backup` write backup file in json format to stdout
-* `restore` restore backup from stdout
+* `restore` restore backup from stdin
 * `--kibana-url` base URL to access Kibana API, default: `http://127.0.0.1:5601`
 * `--user` Kibana user
 * `--password` Kibana password
