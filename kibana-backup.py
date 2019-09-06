@@ -18,7 +18,7 @@ def backup(kibana_url, user, password):
     saved_objects = {}
     for obj_type in saved_object_types:
         r = requests.get(kibana_url + '/api/saved_objects/_find?type={}'.format(obj_type),
-                         auth=(user, password))
+                         auth=(user, password), headers={'kbn-xsrf': 'true'})
         saved_objects[obj_type] = r.json()
     return json.dumps(saved_objects, sort_keys=True, indent=4)
 
