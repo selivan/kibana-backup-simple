@@ -11,6 +11,7 @@ Uses python3 and [python-requests](https://requests.readthedocs.io/) library, wh
 * `backup` write backup file in newline-delimitered json format to stdout
 * `restore` restore backup from stdin
 * `--kibana-url` base URL to access Kibana API, default: `http://127.0.0.1:5601`
+* `--space-id` Kibana space id. If not set then default space will be used.
 * `--user` Kibana user
 * `--password` Kibana password
 
