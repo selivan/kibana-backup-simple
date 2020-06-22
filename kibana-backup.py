@@ -15,10 +15,13 @@ saved_objects_types = (
     'visualization', 'search', 'dashboard', 'url')
 
 
-def backup(kibana_url, user, password):
+def backup(kibana_url, space_id, user, password):
     """Return string with newline-delimitered json containing Kibana saved objects"""
     saved_objects = {}
-    url = kibana_url + '/api/saved_objects/_export'
+    if len(space_id):
+        url = kibana_url + '/s/' + space_id + '/api/saved_objects/_export'
+    else:
+        url = kibana_url + '/api/saved_objects/_export'
     for obj_type in saved_objects_types:
         # print(obj_type)
         r = requests.post(
@@ -33,10 +36,13 @@ def backup(kibana_url, user, password):
     return '\n'.join(saved_objects.values())
 
 
-def restore(kibana_url, user, password, text):
+def restore(kibana_url, space_id, user, password, text):
     """Restore given newline-delimitered json containing saved objects to Kibana"""
 
-    url = kibana_url + '/api/saved_objects/_import?overwrite=true'
+    if len(space_id):
+        url = kibana_url + '/s/' + space_id + '/api/saved_objects/_import?overwrite=true'
+    else:
+        url = kibana_url + '/api/saved_objects/_import?overwrite=true'
     print('POST ' + url)
     r = requests.post(
         url,
@@ -55,11 +61,13 @@ if __name__ == '__main__':
     )
     args_parser.add_argument('action', choices=['backup', 'restore'])
     args_parser.add_argument('--kibana-url', default='http://127.0.0.1:5601', help='URL to access Kibana API')
+    args_parser.add_argument('--space-id', default='',
+                             help='Kibana space id. If not set then the default space is used.')
     args_parser.add_argument('--user', default='', help='Kibana user')
     args_parser.add_argument('--password', default='', help='Kibana password')
     args = args_parser.parse_args()
 
     if args.action == 'backup':
-        print(backup(args.kibana_url, args.user, args.password))
+        print(backup(args.kibana_url, args.space_id, args.user, args.password))
     elif args.action == 'restore':
-        restore(args.kibana_url, args.user, args.password, ''.join(sys.stdin.readlines()))
+        restore(args.kibana_url, args.space_id, args.user, args.password, ''.join(sys.stdin.readlines()))
