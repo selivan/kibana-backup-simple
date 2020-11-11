@@ -15,4 +15,5 @@ setup(
         'requests'
     ],
     scripts=['kibana-backup.py'],
+    data_files=[('', ['LICENSE','VERSION'])],
 )
