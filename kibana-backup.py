@@ -93,7 +93,9 @@ if __name__ == '__main__':
     )
     args_parser.add_argument('action', choices=['backup', 'restore'])
     args_parser.add_argument(
-        '--kibana-url', default='http://127.0.0.1:5601', help='URL to access Kibana API'
+        '--kibana-url',
+        default='http://127.0.0.1:5601',
+        help='URL to access Kibana API, default is http://127.0.0.1:5601',
     )
     args_parser.add_argument('--user', default='', help='Kibana user')
     args_parser.add_argument('--password', default='', help='Kibana password')
