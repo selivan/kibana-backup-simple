@@ -3,7 +3,6 @@ from setuptools import setup
 
 setup(
     name='kibana-backup-simple',
-    packages=['kibana-backup-simple'],
     version=open('VERSION', 'r').read(),
     url='https://github.com/selivan/kibana-backup-simple',
     license='WTFPL',
