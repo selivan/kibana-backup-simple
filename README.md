@@ -30,6 +30,7 @@ Uses python3 and awesome [python-requests](https://requests.readthedocs.io/) lib
 
 * https://www.elastic.co/guide/en/kibana/current/saved-objects-api-export.html
 * https://www.elastic.co/guide/en/kibana/current/saved-objects-api-import.html
+* https://www.elastic.co/guide/en/kibana/current/spaces-api-get-all.html
 
 ### License
 
