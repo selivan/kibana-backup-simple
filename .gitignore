@@ -3,3 +3,7 @@
 /venv
 # pycharm
 .idea
+# setuptools
+build/
+dist/
+*.egg-info/
