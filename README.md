@@ -1,6 +1,6 @@
 Simple backup for Kibana saved objects: config, index patterns, dashboards, saved searches, etc.
 
-Uses python3 and [python-requests](https://requests.readthedocs.io/) library, which you have to install on your every host anyway, because it's awesome.
+Uses python3 and awesome [python-requests](https://requests.readthedocs.io/) library.
 
 ### Usage
 
