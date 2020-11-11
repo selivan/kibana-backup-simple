@@ -1,8 +1,8 @@
+[![PyPI version](https://badge.fury.io/py/kibana-backup-simple.svg)](https://badge.fury.io/py/kibana-backup-simple)
+
 Simple backup for Kibana saved objects: config, index patterns, dashboards, saved searches, etc.
 
 Uses python3 and awesome [python-requests](https://requests.readthedocs.io/) library.
-
-[![PyPI version](https://badge.fury.io/py/kibana-backup-simple.svg)](https://badge.fury.io/py/kibana-backup-simple)
 
 ### Usage
 
