@@ -100,7 +100,7 @@ if __name__ == '__main__':
             for i in spaces:
                 backup_content = backup(args.kibana_url, i, args.user, args.password)
                 suffix = i if len(i) != 0 else 'default'
-                open(f'{args.backup_file}-{suffix}.ndjson', 'w').write(backup_content)
+                open('{args.backup_file}-{suffix}.ndjson'.format(**locals()), 'w').write(backup_content)
     else:
         if args.action == 'backup':
             backup_content = backup(args.kibana_url, args.space_id, args.user, args.password)
