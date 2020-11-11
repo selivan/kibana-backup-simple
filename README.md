@@ -4,18 +4,27 @@ Uses python3 and [python-requests](https://requests.readthedocs.io/) library, wh
 
 ### Usage
 
-`kibana-backup.py [--kibana-url KIBANA_URL] [--user USER] [--password PASSWORD] backup > backup.ndjson`
+```
+kibana-backup.py backup [--kibana-url KIBANA_URL] [--user USER] [--password PASSWORD] > backup.ndjson
 
-`cat backup.ndjson | kibana-backup.py [--kibana-url KIBANA_URL] [--user USER] [--password PASSWORD] restore`
+cat backup.ndjson | kibana-backup.py restore [--kibana-url KIBANA_URL] [--user USER] [--password PASSWORD]
+
+kibana-backup.py backup [--kibana-url KIBANA_URL] [--user USER] [--password PASSWORD] --space-id=myspace --backup-file=myspace.ndjson
+
+kibana-backup.py backup [--kibana-url KIBANA_URL] [--user USER] [--password PASSWORD] --all-spaces --backup-file=backup
+# result:
+backup-default.ndjson
+backup-myspace.ndjson
+backup-space2.ndjson
+```
 
 * `backup` write backup file in newline-delimitered json format to stdout
 * `restore` restore backup from stdin
 * `--kibana-url` base URL to access Kibana API, default: `http://127.0.0.1:5601`
-* `--space-id` Kibana space id. If not set then the default space is used.
 * `--user` Kibana user
 * `--password` Kibana password
-
- *Note:* To use the default space you should not set `--space-id` parameter. Setting it to the default space id: `default` does not work.
+* `--space-id` Kibana space id. If not set then the default space is used.
+* `--all-spaces` Backup all spaces to separate files. Backup file name is used as prefix: `<backup file name>-<space-id>.ndjson`
 
 ### Documentation
 
