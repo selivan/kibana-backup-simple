@@ -20,13 +20,31 @@ Uses python3 and awesome [python-requests](https://requests.readthedocs.io/) lib
 `backup-space2.ndjson`  
 
 
-* `backup` write backup file in newline-delimitered json format to stdout
+* `backup` create backup file in newline-delimitered json format
 * `restore` restore backup from stdin
 * `--kibana-url` base URL to access Kibana API, default: `http://127.0.0.1:5601`
 * `--user` Kibana user
 * `--password` Kibana password
 * `--space-id` Kibana space id. If not set then the default space is used.
 * `--all-spaces` Backup all spaces to separate files. Backup file name is used as prefix: `<backup file>-<space-id>.ndjson`
+
+### Installation
+
+Local installation:
+
+`python setup.py install`
+
+From [pypi.org](https://pypi.org):
+
+`pip install kibana-backup-simple`
+
+Or create a Docker image:
+
+`docker build -t kibana-backup-simple .`
+
+With Docker you should run it like that:
+
+`docker run -it --rm kibana-backup-simple [options]`
 
 ### Documentation
 
