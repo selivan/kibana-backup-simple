@@ -1,0 +1,38 @@
+name: build and upload to pypi
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_upload:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.5]
+    steps:
+      - id: file_changes
+        uses: trilom/file-changes-action@v1.2.3
+        with:
+          output: 'json'
+      - uses: actions/checkout@v2
+        if:
+          contains(steps.file_changes.outputs.files_modified, 'VERSION')
+      - uses: actions/setup-python@v2
+        if:
+          contains(steps.file_changes.outputs.files_modified, 'VERSION')
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Create a source package
+        if:
+          contains(steps.file_changes.outputs.files_modified, 'VERSION')
+        run: |
+          python setup.py sdist
+      - name: Publish a source package to PyPI
+        if:
+          contains(steps.file_changes.outputs.files_modified, 'VERSION')
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          user: __token__
+          password: ${{ secrets.pypi_token }}
