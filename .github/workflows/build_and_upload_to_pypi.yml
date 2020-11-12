@@ -16,6 +16,9 @@ jobs:
         uses: trilom/file-changes-action@v1.2.3
         with:
           output: 'json'
+      - name: test
+        run: |
+          echo '${{ steps.file_changes.outputs.files_modified }}'
       - uses: actions/checkout@v2
         if:
           contains(steps.file_changes.outputs.files_modified, 'VERSION')
