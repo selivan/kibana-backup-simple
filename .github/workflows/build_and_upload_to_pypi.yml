@@ -3,7 +3,7 @@ name: build and upload to pypi
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build_and_upload:
