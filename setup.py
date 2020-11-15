@@ -3,15 +3,15 @@ from setuptools import setup
 
 setup(
     name='kibana-backup-simple',
-    version=open('VERSION', 'r').read(),
+    version=open('VERSION', 'r').read().strip(),
     url='https://github.com/selivan/kibana-backup-simple',
     license='WTFPL',
     description='Simple backup/restore for Kibana saved objects: config, index patterns, dashboards, saved searches, etc.',
     long_description=open("README.md", 'r').read(),
     long_description_content_type='text/markdown',
-    author='Pavel Selivanov (selivan@github)',
-    # twine requires author_email if author is set
-    author_email='selivan.at.github@gmail.com',
+    # twine requires author_email if author is set, but I don't like spam so homepage is enough
+    # author='Pavel Selivanov (selivan@github)',
+    # author_email='',
     python_requires='>=3.5',
     install_requires=[
         'requests'

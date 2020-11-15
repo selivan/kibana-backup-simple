@@ -34,7 +34,12 @@ jobs:
         run: |
           python setup.py sdist
           # debug
-          pip list | egrep 'setuptools|twine|wheel'
+          pip install --upgrade wheel
+          pip install --upgrade setuptools
+          pip install --upgrade twine
+          pip list | grep wheel
+          pip list | grep setuptools
+          pip list | grep twine
       - name: Publish a source package to PyPI
         if:
           contains(steps.file_changes.outputs.files_modified, 'VERSION')
