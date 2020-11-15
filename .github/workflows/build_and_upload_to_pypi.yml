@@ -40,7 +40,7 @@ jobs:
           pip list | grep wheel
           pip list | grep setuptools
           pip list | grep twine
-          python -m twine upload -u "__token__" -p "${{ secrets.pypi_token }}" --repository-url "https://pypi.org/legacy/" dist/*
+          python -m twine upload -u "__token__" -p "${{ secrets.pypi_token }}" dist/*
         # BUG: none of these two works correctly with long description in markdown :(
 #      - name: Publish a source package to PyPI
 #        if:
