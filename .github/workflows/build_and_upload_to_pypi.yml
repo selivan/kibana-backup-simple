@@ -33,6 +33,8 @@ jobs:
           contains(steps.file_changes.outputs.files_modified, 'VERSION')
         run: |
           python setup.py sdist
+          # debug
+          pip list | egrep 'setuptools|twine|wheel'
       - name: Publish a source package to PyPI
         if:
           contains(steps.file_changes.outputs.files_modified, 'VERSION')

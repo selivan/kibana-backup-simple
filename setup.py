@@ -10,6 +10,8 @@ setup(
     long_description=open("README.md", 'r').read(),
     long_description_content_type='text/markdown',
     author='Pavel Selivanov (selivan@github)',
+    # twine requires author_email if author is set
+    author_email='selivan.at.github@gmail.com',
     python_requires='>=3.5',
     install_requires=[
         'requests'
