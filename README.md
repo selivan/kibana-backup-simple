@@ -1,4 +1,4 @@
-![PyPI](https://img.shields.io/pypi/v/kibana-backup-simple?color=%233fb911&label=pypi%20package)
+[![pypi 20package](https://img.shields.io/pypi/v/kibana-backup-simple?color=%233fb911&label=pypi%20package)](https://pypi.org/project/kibana-backup-simple/)
 
 Simple backup for Kibana saved objects: config, index patterns, dashboards, saved searches, etc.
 
