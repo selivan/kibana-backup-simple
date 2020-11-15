@@ -17,9 +17,6 @@ jobs:
         uses: trilom/file-changes-action@v1.2.3
         with:
           output: 'json'
-      - name: test
-        run: |
-          echo '${{ steps.file_changes.outputs.files_modified }}'
       - uses: actions/checkout@v2
         if:
           contains(steps.file_changes.outputs.files_modified, 'VERSION')
@@ -32,9 +29,7 @@ jobs:
         if:
           contains(steps.file_changes.outputs.files_modified, 'VERSION')
         run: |
-          pip install --upgrade setuptools
-          pip install --upgrade wheel
-          pip install --upgrade twine
+          pip install --upgrade setuptools wheel twine
           python setup.py sdist
           python setup.py bdist_wheel
           python -m twine upload -u "__token__" -p "${{ secrets.pypi_token }}" dist/*
