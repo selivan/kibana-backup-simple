@@ -1,3 +1,5 @@
+# test kibana backup files
+*.ndjson
 *.py[co]
 # virtual env
 /venv

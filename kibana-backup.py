@@ -8,6 +8,8 @@ import sys
 import argparse
 import requests
 import json
+import glob
+import re
 from pprint import pprint
 
 # Error message from Kibana listing all possible saved objects types:
@@ -112,24 +114,45 @@ if __name__ == '__main__':
     args_parser.add_argument(
         '--all-spaces',
         action='store_true',
-        help='Backup all spaces to separate files. Backup file name is used as prefix: <backup file name>-<space-id>.ndjson',
+        help='Backup all spaces to separate files.',
+    )
+    args_parser.add_argument(
+        '--backup-file-prefix',
+        default='',
+        help='Backup file prefix for all spaces option: <prefix>-<space id>.ndjson',
     )
     args = args_parser.parse_args()
 
     if args.all_spaces:
-        if len(args.backup_file) == 0:
+        if len(args.backup_file_prefix) == 0:
             raise Exception(
-                'ERROR: all spaces option requires backup file to be specified'
+                'ERROR: all spaces option requires backup file prefix to be specified'
             )
         elif args.action == 'restore':
-            raise Exception('ERROR: all spaces option works only with backup action')
-        else:
+            backup_files_wildcard = args.backup_file_prefix + '*.ndjson'
+            backup_files = glob.glob(backup_files_wildcard)
+            if len(backup_files) == 0:
+                raise Exception('ERROR: no files like {backup_files_wildcard} were found'.format(**locals()))
+            for backup_file in backup_files:
+                regexp = '{args.backup_file_prefix}(.*)\\.ndjson'.format(**locals())
+                space_id = re.match(regexp, backup_file).group(1)
+                if len(space_id) == 0:
+                    raise Exception('File {backup_file} does not contain a valid space id'.format(**locals()))
+                restore_content = ''.join(open(backup_file, 'r').readlines())
+                restore(
+                    args.kibana_url,
+                    space_id,
+                    args.user,
+                    args.password,
+                    restore_content,
+                )
+        elif args.action == 'backup':
             spaces = get_all_spaces(args.kibana_url, args.user, args.password)
-            for i in spaces:
-                backup_content = backup(args.kibana_url, i, args.user, args.password)
-                suffix = i if len(i) != 0 else 'default'
+            for space in spaces:
+                backup_content = backup(args.kibana_url, space, args.user, args.password)
+                suffix = space if len(space) != 0 else 'default'
                 open(
-                    '{args.backup_file}-{suffix}.ndjson'.format(**locals()), 'w'
+                    '{args.backup_file_prefix}{suffix}.ndjson'.format(**locals()), 'w'
                 ).write(backup_content)
     else:
         if args.action == 'backup':
