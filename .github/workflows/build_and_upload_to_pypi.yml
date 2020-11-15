@@ -1,4 +1,4 @@
-name: build and upload to pypi
+name: build and upload to pypi if VERSION changed
 
 on:
   push:
