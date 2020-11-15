@@ -9,9 +9,9 @@ on:
 jobs:
   build_and_upload:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.5]
+#    strategy:
+#      matrix:
+#        python-version: [3.5]
     steps:
       - id: file_changes
         uses: trilom/file-changes-action@v1.2.3
@@ -27,7 +27,7 @@ jobs:
         if:
           contains(steps.file_changes.outputs.files_modified, 'VERSION')
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3.8
       - name: Create a source package and upload it to pypi
         if:
           contains(steps.file_changes.outputs.files_modified, 'VERSION')
@@ -37,9 +37,6 @@ jobs:
           pip install --upgrade wheel
           pip install --upgrade setuptools
           pip install --upgrade twine
-          pip list | grep wheel
-          pip list | grep setuptools
-          pip list | grep twine
           python -m twine upload -u "__token__" -p "${{ secrets.pypi_token }}" dist/*
         # BUG: none of these two works correctly with long description in markdown :(
 #      - name: Publish a source package to PyPI
