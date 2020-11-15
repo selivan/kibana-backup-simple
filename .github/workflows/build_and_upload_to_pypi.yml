@@ -28,7 +28,7 @@ jobs:
           contains(steps.file_changes.outputs.files_modified, 'VERSION')
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Create a source package
+      - name: Create a source package and upload it to pypi
         if:
           contains(steps.file_changes.outputs.files_modified, 'VERSION')
         run: |
@@ -40,12 +40,13 @@ jobs:
           pip list | grep wheel
           pip list | grep setuptools
           pip list | grep twine
-      - name: Publish a source package to PyPI
-        if:
-          contains(steps.file_changes.outputs.files_modified, 'VERSION')
+          python -m twine upload -u "__token__" -p "${{ secrets.pypi_token }}" --repository-url "https://testpypi.org/legacy/" dist/*
         # BUG: none of these two works correctly with long description in markdown :(
-        uses: pypa/gh-action-pypi-publish@master
+#      - name: Publish a source package to PyPI
+#        if:
+#          contains(steps.file_changes.outputs.files_modified, 'VERSION')
+#        uses: pypa/gh-action-pypi-publish@master
 #        uses: ortega2247/pypi-upload-action@master
-        with:
-          user: __token__
-          password: ${{ secrets.pypi_token }}
+#        with:
+#          user: __token__
+#          password: ${{ secrets.pypi_token }}
