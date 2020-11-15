@@ -29,21 +29,24 @@ Uses python3 and awesome [python-requests](https://requests.readthedocs.io/) lib
 
 ### Installation
 
-Local installation:
-
-`python setup.py install`
-
 From [pypi.org](https://pypi.org):
 
 `pip install kibana-backup-simple`
 
-Or create a Docker image:
+Local installation:
 
-`docker build -t kibana-backup-simple .`
+```bash
+git clone https://github.com/selivan/kibana-backup-simple.git
+cd kibana-backup-simple
+python setup.py install
+```
 
-With Docker you should run it like that:
+Or just create a Docker image and use it:
 
-`docker run -it --rm kibana-backup-simple [options]`
+```bash
+docker build -t kibana-backup-simple .
+docker run -it --rm kibana-backup-simple [options]
+```
 
 ### Documentation
 
