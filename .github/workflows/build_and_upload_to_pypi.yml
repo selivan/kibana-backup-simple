@@ -43,8 +43,9 @@ jobs:
       - name: Publish a source package to PyPI
         if:
           contains(steps.file_changes.outputs.files_modified, 'VERSION')
-#        uses: pypa/gh-action-pypi-publish@master
-        uses: ortega2247/pypi-upload-action@master
+        # BUG: none of these two works correctly with long description in markdown :(
+        uses: pypa/gh-action-pypi-publish@master
+#        uses: ortega2247/pypi-upload-action@master
         with:
           user: __token__
           password: ${{ secrets.pypi_token }}
