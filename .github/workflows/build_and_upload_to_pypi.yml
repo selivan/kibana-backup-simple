@@ -32,11 +32,11 @@ jobs:
         if:
           contains(steps.file_changes.outputs.files_modified, 'VERSION')
         run: |
-          python setup.py sdist
-          # debug
-          pip install --upgrade wheel
           pip install --upgrade setuptools
+          pip install --upgrade wheel
           pip install --upgrade twine
+          python setup.py sdist
+          python setup.py bdist_wheel
           python -m twine upload -u "__token__" -p "${{ secrets.pypi_token }}" dist/*
         # Possible actions to use instead of manual
 #      - name: Publish a source package to PyPI

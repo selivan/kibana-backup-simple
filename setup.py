@@ -6,6 +6,7 @@ setup(
     version=open('VERSION', 'r').read().strip(),
     url='https://github.com/selivan/kibana-backup-simple',
     license='WTFPL',
+    license_files = [ 'LICENSE' ],
     description='Simple backup/restore for Kibana saved objects: config, index patterns, dashboards, saved searches, etc.',
     long_description=open("README.md", 'r').read(),
     long_description_content_type='text/markdown',
