@@ -12,6 +12,8 @@ Uses python3 and awesome [python-requests](https://requests.readthedocs.io/) lib
 
 `cat backup.ndjson | kibana-backup.py restore [--kibana-url KIBANA_URL] [--user USER] [--password PASSWORD]`
 
+#### Backup non-default namespace
+
 `kibana-backup.py backup [--kibana-url KIBANA_URL] [--user USER] [--password PASSWORD] --space-id=myspace --backup-file=myspace.ndjson`
 
 #### Backup/restore all namespaces
