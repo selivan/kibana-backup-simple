@@ -19,9 +19,11 @@ Uses python3 and awesome [python-requests](https://requests.readthedocs.io/) lib
 #### Backup/restore all namespaces
 
 `kibana-backup.py backup [--kibana-url KIBANA_URL] [--user USER] [--password PASSWORD] --all-spaces --backup-file-prefix=backup-`  
+  
 Result: `backup-default.ndjson backup-myspace.ndjson backup-myspace2.ndjson`  
 
 `kibana-backup.py restore [--kibana-url KIBANA_URL] [--user USER] [--password PASSWORD] --all-spaces --backup-file-prefix=backup-`  
+  
 Restores `backup-default.ndjson` to space `id=default`, `backup-myspace.ndjson` to space `id=myspace`, ...  
 
 #### Options
