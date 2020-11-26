@@ -26,16 +26,6 @@ Result: `backup-default.ndjson backup-myspace.ndjson backup-myspace2.ndjson`
   
 Restores `backup-default.ndjson` to space `id=default`, `backup-myspace.ndjson` to space `id=myspace`, ...  
 
-#### Options
-
-* `backup` create backup file in newline-delimitered json format
-* `restore` restore backup from stdin
-* `--kibana-url` base URL to access Kibana API, default: `http://127.0.0.1:5601`
-* `--user` Kibana user
-* `--password` Kibana password
-* `--space-id` Kibana space id. If not set then the default space is used.
-* `--all-spaces` Backup all spaces to separate files. Backup file name is used as prefix: `<backup file>-<space-id>.ndjson`
-
 ### Installation
 
 From [pypi.org](https://pypi.org):
