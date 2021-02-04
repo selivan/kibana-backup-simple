@@ -12,6 +12,8 @@ import glob
 import re
 from pprint import pprint
 
+import ndjson
+
 # Error message from Kibana listing all possible saved objects types:
 # \"type\" must be one of [config, map, canvas-workpad, canvas-element, index-pattern, visualization, search, dashboard, url]
 saved_objects_types = (
@@ -63,9 +65,10 @@ def backup(kibana_url, space_id, user, password):
             data='{ "type": "' + obj_type + '" }',
         )
         r.raise_for_status()  # Raises stored HTTPError, if one occurred.
-        saved_objects[obj_type] = r.text
 
-    return '\n'.join(saved_objects.values())
+        saved_objects[obj_type] = ndjson.loads(r.text)
+
+    return saved_objects
 
 
 def restore(kibana_url, space_id, user, password, text):
@@ -149,11 +152,11 @@ if __name__ == '__main__':
         elif args.action == 'backup':
             spaces = get_all_spaces(args.kibana_url, args.user, args.password)
             for space in spaces:
-                backup_content = backup(args.kibana_url, space, args.user, args.password)
+                backup_object = backup(args.kibana_url, space, args.user, args.password)
                 suffix = space if len(space) != 0 else 'default'
-                open(
-                    '{args.backup_file_prefix}{suffix}.ndjson'.format(**locals()), 'w'
-                ).write(backup_content)
+                backup_filename = '{args.backup_file_prefix}{suffix}.ndjson'.format(**locals())
+                with open(backup_filename , 'w') as fh:
+                    json.dump(backup_object, fh, sort_keys=True, indent=2)
     else:
         if args.action == 'backup':
             backup_content = backup(
