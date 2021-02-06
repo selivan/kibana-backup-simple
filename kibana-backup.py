@@ -10,6 +10,7 @@ import requests
 import json
 import glob
 import re
+from collections import OrderedDict
 from pprint import pprint
 
 # Error message from Kibana listing all possible saved objects types:
@@ -49,7 +50,8 @@ def get_all_spaces(kibana_url, user, password):
 
 def backup(kibana_url, space_id, user, password):
     """Return string with newline-delimitered json containing Kibana saved objects"""
-    saved_objects = {}
+    # OrderedDict preserves items order so we have the same output if nothing changed
+    saved_objects = OrderedDict()
     if len(space_id) and space_id != 'default':
         url = kibana_url + '/s/' + space_id + '/api/saved_objects/_export'
     else:
