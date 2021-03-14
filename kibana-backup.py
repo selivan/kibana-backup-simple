@@ -28,13 +28,14 @@ saved_objects_types = (
 )
 
 
-def get_all_spaces(kibana_url, user, password):
+def get_all_spaces(kibana_url, user, password, verify_ssl=True):
     """Return list of all space ids in kibana, default space id goes as an empty string"""
     url = kibana_url + '/api/spaces/space'
     r = requests.get(
         url,
         auth=(user, password),
         headers={'Content-Type': 'application/json', 'kbn-xsrf': 'reporting'},
+        verify=verify_ssl,
     )
     r.raise_for_status()  # Raises stored HTTPError, if one occurred.
 
@@ -48,7 +49,7 @@ def get_all_spaces(kibana_url, user, password):
     return spaces_list
 
 
-def backup(kibana_url, space_id, user, password):
+def backup(kibana_url, space_id, user, password, verify_ssl=True):
     """Return string with newline-delimitered json containing Kibana saved objects"""
     # OrderedDict preserves items order so we have the same output if nothing changed
     saved_objects = OrderedDict()
@@ -63,6 +64,7 @@ def backup(kibana_url, space_id, user, password):
             auth=(user, password),
             headers={'Content-Type': 'application/json', 'kbn-xsrf': 'reporting'},
             data='{ "type": "' + obj_type + '" }',
+            verify=verify_ssl,
         )
         r.raise_for_status()  # Raises stored HTTPError, if one occurred.
         saved_objects[obj_type] = r.text
@@ -70,7 +72,7 @@ def backup(kibana_url, space_id, user, password):
     return '\n'.join(saved_objects.values())
 
 
-def restore(kibana_url, space_id, user, password, text):
+def restore(kibana_url, space_id, user, password, text, verify_ssl=True):
     """Restore given newline-delimitered json containing saved objects to Kibana"""
 
     if len(space_id) and space_id != 'default':
@@ -85,6 +87,7 @@ def restore(kibana_url, space_id, user, password, text):
         auth=(user, password),
         headers={'kbn-xsrf': 'reporting'},
         files={'file': ('backup.ndjson', text)},
+        verify=verify_ssl,
     )
 
     print(r.status_code, r.reason, '\n', r.text)
@@ -103,6 +106,12 @@ if __name__ == '__main__':
     )
     args_parser.add_argument('--user', default='', help='Kibana user')
     args_parser.add_argument('--password', default='', help='Kibana password')
+    args_parser.add_argument(
+        '--no-verify-ssl',
+        action='store_true',
+        default=False,
+        help='UNSAFE: Do not verify SSL/TLS certificates',
+    )
     args_parser.add_argument(
         '--backup-file',
         default='',
@@ -134,12 +143,20 @@ if __name__ == '__main__':
             backup_files_wildcard = args.backup_file_prefix + '*.ndjson'
             backup_files = glob.glob(backup_files_wildcard)
             if len(backup_files) == 0:
-                raise Exception('ERROR: no files like {backup_files_wildcard} were found'.format(**locals()))
+                raise Exception(
+                    'ERROR: no files like {backup_files_wildcard} were found'.format(
+                        **locals()
+                    )
+                )
             for backup_file in backup_files:
                 regexp = '{args.backup_file_prefix}(.*)\\.ndjson'.format(**locals())
                 space_id = re.match(regexp, backup_file).group(1)
                 if len(space_id) == 0:
-                    raise Exception('File {backup_file} does not contain a valid space id'.format(**locals()))
+                    raise Exception(
+                        'File {backup_file} does not contain a valid space id'.format(
+                            **locals()
+                        )
+                    )
                 restore_content = ''.join(open(backup_file, 'r').readlines())
                 restore(
                     args.kibana_url,
@@ -147,11 +164,23 @@ if __name__ == '__main__':
                     args.user,
                     args.password,
                     restore_content,
+                    verify_ssl=not args.no_verify_ssl,
                 )
         elif args.action == 'backup':
-            spaces = get_all_spaces(args.kibana_url, args.user, args.password)
+            spaces = get_all_spaces(
+                args.kibana_url,
+                args.user,
+                args.password,
+                verify_ssl=not args.no_verify_ssl,
+            )
             for space in spaces:
-                backup_content = backup(args.kibana_url, space, args.user, args.password)
+                backup_content = backup(
+                    args.kibana_url,
+                    space,
+                    args.user,
+                    args.password,
+                    verify_ssl=not args.no_verify_ssl,
+                )
                 suffix = space if len(space) != 0 else 'default'
                 open(
                     '{args.backup_file_prefix}{suffix}.ndjson'.format(**locals()), 'w'
@@ -159,7 +188,11 @@ if __name__ == '__main__':
     else:
         if args.action == 'backup':
             backup_content = backup(
-                args.kibana_url, args.space_id, args.user, args.password
+                args.kibana_url,
+                args.space_id,
+                args.user,
+                args.password,
+                verify_ssl=not args.no_verify_ssl,
             )
             if len(args.backup_file) == 0:
                 print(backup_content, end='')
@@ -176,4 +209,5 @@ if __name__ == '__main__':
                 args.user,
                 args.password,
                 restore_content,
+                verify_ssl=not args.no_verify_ssl,
             )
