@@ -14,7 +14,7 @@ from collections import OrderedDict
 from pprint import pprint
 
 # Error message from Kibana listing all possible saved objects types:
-# \"type\" must be one of [config, map, canvas-workpad, canvas-element, index-pattern, visualization, search, dashboard, url]
+# \"type\" must be one of [config, map, canvas-workpad, canvas-element, index-pattern, visualization, search, dashboard, url, query]
 saved_objects_types = (
     'config',
     'map',
@@ -25,6 +25,7 @@ saved_objects_types = (
     'search',
     'dashboard',
     'url',
+    'query'
 )
 
 
