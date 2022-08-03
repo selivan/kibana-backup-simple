@@ -44,8 +44,10 @@ Or just create a Docker image and use it:
 
 ```bash
 docker build -t kibana-backup-simple .
-docker run -it --rm kibana-backup-simple [options]
+docker run -it --rm -v "$PWD":/opt kibana-backup-simple  [options]
 ```
+
+**Note**: if you use options like `--all-spaces` and `--backup-file`, you should mount some local directory into the container.
 
 ### Documentation
 
