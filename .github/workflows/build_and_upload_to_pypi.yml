@@ -14,13 +14,13 @@ jobs:
 #        python-version: [3.8]
     steps:
       - id: file_changes
-        uses: trilom/file-changes-action@v1.2.3
+        uses: trilom/file-changes-action@v1.2.4
         with:
           output: 'json'
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         if:
           contains(steps.file_changes.outputs.files_modified, 'VERSION')
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         if:
           contains(steps.file_changes.outputs.files_modified, 'VERSION')
         with:
