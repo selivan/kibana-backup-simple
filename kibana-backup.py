@@ -132,7 +132,7 @@ if __name__ == '__main__':
     args_parser.add_argument(
         '--backup-file-prefix',
         default='',
-        help='Backup file prefix for all spaces option: <prefix>-<space id>.ndjson',
+        help='Backup file prefix for all spaces option: <prefix><space id>.ndjson',
     )
     args = args_parser.parse_args()
 
